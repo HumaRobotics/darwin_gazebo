@@ -10,13 +10,10 @@ These have been tested in simulation and need some work to be used on the real r
 ## Install
 
 Clone in your catkin workspace and catkin_make it.
-Make sure you also have:
-
-    - darwin_description https://github.com/HumaRobotics/darwin_description
-    - darwin_control https://github.com/HumaRobotics/darwin_control
+Make sure you also have the following packages in your workspace
+* darwin_description: https://github.com/HumaRobotics/darwin_description
+* darwin_control: https://github.com/HumaRobotics/darwin_control
     
-
-
 ## Usage
 
 You can launch the simulation with:
@@ -83,9 +80,11 @@ Basic usage:
     rospy.sleep(5)
     darwin.set_walk_velocity(0,0,0) # Stop
 
-
 ## Dependencies
 
+The following ROS packages have to be installed:
+* gazebo_ros_control
+* hector_gazebo
 
 ## License
 
