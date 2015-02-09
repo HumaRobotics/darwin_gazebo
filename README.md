@@ -1,6 +1,6 @@
 ## darwin_gazebo
 
-ROS package providing providing Gazebo simulation of the Darwin OP robot.
+ROS package providing Gazebo simulation of the Darwin OP robot.
 Also provides a Python interface to the joints and some walk capabilities.
 
 These have been tested in simulation and need some work to be used on the real robot, do not use as-is.
