@@ -73,19 +73,19 @@ Actuators (radians for position control, arbitrary normalized speed for cmd_vel)
 ## Python API
 
 Basic usage:
+```python
+import rospy
+from darwin_gazebo.darwin import Darwin
 
-    import rospy
-    from darwin_gazebo.darwin import Darwin
+rospy.init_node("walker_demo")
 
-    rospy.init_node("walker_demo")
+darwin=Darwin()
+rospy.sleep(1)
 
-    darwin=Darwin()
-    rospy.sleep(1)
-
-    darwin.set_walk_velocity(1,0,0) # Set full speed ahead for 5 secs
-    rospy.sleep(5)
-    darwin.set_walk_velocity(0,0,0) # Stop
-
+darwin.set_walk_velocity(1,0,0) # Set full speed ahead for 5 secs
+rospy.sleep(5)
+darwin.set_walk_velocity(0,0,0) # Stop
+```
 ## Dependencies
 
 The following ROS packages have to be installed:
