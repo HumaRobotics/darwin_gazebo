@@ -7,6 +7,12 @@ These have been tested in simulation and need some work to be used on the real r
 
 ![Darwin model in Gazebo](/darwin.png?raw=true "Darwin model in Gazebo")
 
+## Tutorial
+
+A tutorial describing how to use this package can be found at:
+
+http://www.generationrobots.com/en/content/83-carry-out-simulations-and-make-your-darwin-op-walk-with-gazebo-and-ros
+
 ## Install
 
 Clone in your catkin workspace and catkin_make it.
