@@ -8,7 +8,10 @@ from geometry_msgs.msg import Twist
 
 
 class WJFunc:
-    """Walk Joint Function CPG style"""
+    """
+    Walk Joint Function CPG style
+    Provides parameterized sine wave functions as y=offset+scale*(in_offset+in_scale*x)
+    """
     def __init__(self):
         self.offset=0
         self.scale=1
@@ -38,7 +41,9 @@ class WJFunc:
         return "y=%f+%f*sin(%f+%f*x)"%(self.offset,self.scale,self.in_offset,self.in_scale)
         
 class WFunc:
-    """Multi-joint walk function for Darwin"""
+    """
+    Multi-joint walk function for Darwin    
+    """
     def __init__(self,**kwargs):
         self.parameters={}
 
@@ -56,6 +61,9 @@ class WFunc:
         self.generate()
         
     def generate(self):
+        """
+        Build CPG functions for walk-on-spot (no translation or rotation, only legs up/down)
+        """        
         # f1=THIGH1=ANKLE1=L=R in phase
         self.pfn={} # phase joint functions    
         self.afn={} # anti phase joint functions
@@ -113,14 +121,16 @@ class WFunc:
         self.show()
        
     def generate_right(self):
-        # Mirror from left to right and antiphase right
+        """
+        Mirror CPG functions from left to right and antiphase right
+        """
         l=[ v[:-2] for v in self.pfn.keys()]
         for j in l:
             self.pfn[j+"_r"]=self.afn[j+"_l"].mirror()
             self.afn[j+"_r"]=self.pfn[j+"_l"].mirror()
         
     def get(self,phase,x,velocity):
-        """ x between 0 and 1"""
+        """ Obtain the joint angles for a given phase, position in cycle (x 0,1)) and velocity parameters """
         angles={}
         for j in self.pfn.keys():
             if phase:
@@ -135,11 +145,15 @@ class WFunc:
         
         
     def show(self):
+        """
+        Display the CPG functions used
+        """
         for j in self.pfn.keys():
             print j,"p",self.pfn[j],"a",self.afn[j]
         
     
     def apply_velocity(self,angles,velocity,phase,x):
+        """ Modify on the walk-on-spot joint angles to apply the velocity vector"""
         
         # VX
         v=velocity[0]*self.parameters["vx_scale"]
@@ -224,6 +238,9 @@ class Walker:
 
 
     def _cb_cmd_vel(self,msg):
+        """
+        Catches cmd_vel and update walker speed
+        """
         print "cmdvel",msg
         vx=msg.linear.x
         vy=msg.linear.y
@@ -232,6 +249,9 @@ class Walker:
         self.set_velocity(vx,vy,vt)
         
     def init_walk(self):
+        """
+        If not there yet, go to initial walk position
+        """
         rospy.loginfo("Going to walk position")
         if self.get_dist_to_ready()>0.02:                    
             self.darwin.set_angles_slow(self.ready_pos)        
@@ -258,6 +278,9 @@ class Walker:
         
 
     def _do_walk(self):
+        """
+        Main walking loop, smoothly update velocity vectors and apply corresponding angles
+        """
         r=rospy.Rate(100)
         rospy.loginfo("Started walking thread")
         func=self.func
